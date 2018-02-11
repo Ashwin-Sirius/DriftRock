@@ -35,67 +35,72 @@ type PurchaseData struct {
 }
 
 //json user data parser
-func getUsers() {
+func getUsers() UserData {
 	url := fmt.Sprintf("https://driftrock-dev-test.herokuapp.com/users?page=1&per_page=50")
 
 	client := &http.Client{}
+	empty := UserData{}
 
 	//build the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatal("NewRequest: ", err)
-		return
+		return empty
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal("Do: ", err)
-		return
+		return empty
 	}
 
 	defer resp.Body.Close()
 
-	var recordUser UserData
+	recordUser := UserData{}
 
 	if err := json.NewDecoder(resp.Body).Decode(&recordUser); err != nil {
 		log.Println(err) //decode vs unmarshall (use decode when io is streaming from a source ie http and marshal when json is locally available)
 	}
-
-	fmt.Println(resp.Status)
-	fmt.Println((recordUser))
+	// fmt.Println(resp.Status)
+	// fmt.Println((recordUser.Data[0]))
+	return recordUser
 }
 
 //json purchase data parser
-func getPurchases() {
+func getPurchases() PurchaseData {
 	url := fmt.Sprintf("https://driftrock-dev-test.herokuapp.com/purchases?page=1&per_page=50")
 
 	client := &http.Client{}
 
+	empty := PurchaseData{}
 	//build the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatal("NewRequest: ", err)
-		return
+		return empty
 	}
 
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal("Do: ", err)
-		return
+		return empty
 	}
 
 	defer resp.Body.Close()
-
-	var recordPurchases PurchaseData
+	recordPurchases := PurchaseData{}
 
 	if err := json.NewDecoder(resp.Body).Decode(&recordPurchases); err != nil {
 		log.Println(err) //decode vs unmarshall (use decode when io is streaming from a source ie http and marshal when json is locally available)
 	}
 
-	fmt.Println(resp.Status)
-	fmt.Println((recordPurchases))
+	// fmt.Println(resp.Status)
+	//fmt.Println((recordPurchases.Data[0].Item[1]))
+	return recordPurchases
 }
 
 // func enumerator() {
-//// implement loop until Content-Length = 11 (end of content)
+// // implement loop until Content-Length = 11 (end of content)
+// if ()
+//
 // }
+//

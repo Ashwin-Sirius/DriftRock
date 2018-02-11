@@ -37,12 +37,12 @@ func main() {
 	flag.Parse()
 
 	if sold {
-		getUsers()
+		most_Sold()
 		return
 	}
 
 	if loyal {
-		getUsers()
+		most_Loyal()
 		return
 	}
 
@@ -52,6 +52,8 @@ func main() {
 	}
 
 	if spend != "" {
+		email := ""
+		total_Spend(email)
 		return
 	}
 }
